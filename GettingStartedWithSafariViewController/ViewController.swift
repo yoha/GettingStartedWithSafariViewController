@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class ViewController: UIViewController
 {
@@ -29,16 +30,24 @@ class ViewController: UIViewController
     @IBAction func openInSafari(sender: AnyObject)
     {
         //TODO: Open in native safari
+        let url = NSURL(string: self.urlString)!
+        UIApplication.sharedApplication().openURL(url)
     }
     
     @IBAction func openWithSafariVC(sender: AnyObject)
     {
         //TODO: Open in safari view controller
+        let safariViewController = SFSafariViewController(URL: NSURL(string: self.urlString)!, entersReaderIfAvailable: true)
+        self.presentViewController(safariViewController, animated: true, completion: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
         //TODO: open in webview
+        if let navigationController = segue.destinationViewController as? UINavigationController {
+            let customWebViewController = navigationController.topViewController as! CustomWebViewController
+            customWebViewController.urlString = self.urlString
+        }
     }
 }
 
